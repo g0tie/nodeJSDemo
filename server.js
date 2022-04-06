@@ -5,12 +5,17 @@ const bodyParser = require("body-parser");
 const UserModel = require("./models/User");
 const { redirect } = require('express/lib/response');
 
+//Set connection to database
 connectToDb();
+
+//set middlewares
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded( {extended: true} ));
 app.set('view engine', 'ejs');
 
-// Compile the source code
+// SETTING ROUTES AND CONTROLLERS DIRECTLY (because it's a small app)
+
+// Homepage
 app.get('/', async (req, res) => {
 
     try {
@@ -22,10 +27,12 @@ app.get('/', async (req, res) => {
 
 });
 
+// 404 page
 app.get("/notfound", (req, res) => {
     res.send("404 not found");
 });
 
+//Custom editing page based on user id (username)
 app.get('/personne/:id', async (req, res) => {
     try {
         let infos = await UserModel.findOne({name: req.params.id});
@@ -38,6 +45,7 @@ app.get('/personne/:id', async (req, res) => {
     }
 });
 
+//Handle update when submitting form
 app.post('/personne/:id', async (req, res) => {
     try {
         let user = await UserModel.findOne({name: req.params.id});
@@ -52,6 +60,7 @@ app.post('/personne/:id', async (req, res) => {
     }
 });
 
+// Add a new entry, new user in database
 app.post('/personne', async (req, res) => {
     try {
         let newUser = UserModel.create({
@@ -65,4 +74,5 @@ app.post('/personne', async (req, res) => {
     }
 });
 
+//start server
 const listener = app.listen(process.env.PORT, () => console.log(`Server listening on port ${listener.address().port}`));
