@@ -4,9 +4,27 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Update infos</title>
 </head>
 <body>
-    
+    <h1>Update infos:</h1>
+
+    <% if (success == 1) { %>
+        <p style="font-weight: bold;">DATA UPDATED !</p>
+    <% } %>
+
+    <% if (success === 0) { %>
+        <p style="font-weight: bold;">ERROR!</p>
+    <% } %>
+  
+    <form method="POST" action="/personne/<%= name %>">
+        <input type="text" name="username" placeholder="Nom.." value="<%= name %>" />
+        <select name="genre" value="<%= genre %>">
+            <option disabled>Choisir un genre</option>
+            <option value="F"> Femme </option>
+            <option value="M"> Homme</option>
+        </select>
+        <input type="submit" value="Valider" />
+    </form>
 </body>
 </html>

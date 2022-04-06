@@ -12,6 +12,23 @@
     <%} else { %>
             <h1>Error <%= error %></h1>
     <% } %>
+
+    <% if (success == 1) { %>
+        <p style="font-weight: bold;">DATA ADDED !</p>
+    <% } %>
+
+    <% if (success === 0) { %>
+        <p style="font-weight: bold;">ERROR!</p>
+    <% } %>
   
+    <form method="POST" action="/personne">
+        <input type="text" name="username" placeholder="Nom.." />
+        <select name="genre">
+            <option disabled>Choisir un genre</option>
+            <option value="F"> Femme </option>
+            <option value="M"> Homme</option>
+        </select>
+        <input type="submit" value="Valider" />
+    </form>
     </body>
 </html>
