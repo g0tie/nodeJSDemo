@@ -1,14 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo NodeJS</title>
-</head>
+<%- include('./header.ejs') %>
 <body>
+    <div class="container d-flex flex-column justify-content-center align-items-center">
     <% if (!error) { %>
-        <h1>Welcome User: <%= user %> Gender: <%= gender %></h1>
+        <h1 class="my-5">Welcome User: <%= user %> Gender: <%= gender %></h1>
     <%} else { %>
             <h1>Error <%= error %></h1>
     <% } %>
@@ -20,8 +14,8 @@
     <% if (success === 0) { %>
         <p style="font-weight: bold;">ERROR!</p>
     <% } %>
-  
-    <form method="POST" action="/personne">
+  <h2>Add a user</h2>
+    <form method="POST" action="/personne" class="d-flex flex-column justify-content-center w-25">
         <input type="text" name="username" placeholder="Nom.." />
         <select name="genre">
             <option disabled>Choisir un genre</option>
@@ -30,5 +24,6 @@
         </select>
         <input type="submit" value="Valider" />
     </form>
+</div>
     </body>
 </html>
