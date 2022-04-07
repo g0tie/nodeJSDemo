@@ -20,7 +20,8 @@ app.get('/', async (req, res) => {
 
     try {
         let user = await UserModel.findOne({name: "Eric"});
-        res.render(__dirname + '/templates/index.ejs', {user: user.name, gender: user.genre, error:false, success: req.query.success || false});
+        let list = await UserModel.find() || [];
+        res.render(__dirname + '/templates/index.ejs', {user: user.name, gender: user.genre, error:false, success: req.query.success || false, list});
     } catch (e) {
         res.render(__dirname + '/templates/index.ejs', {error: e, success: false});
     }

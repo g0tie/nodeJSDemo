@@ -24,6 +24,24 @@
         </select>
         <input type="submit" value="Valider" />
     </form>
+
+    <h2 class=" my-5">User list</h2>
+
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>Nom</th>
+                <th>Genre</th>
+            </tr>
+        </thead>
+        <% for (el of list) { %>
+            <tr>
+                <td><a href="/personne/<%= el.name %>"><%= el.name %></a></td>
+                <td><%= el.genre %></td>
+            </tr>
+        <% } %>
+    </table>
+   
 </div>
     </body>
 </html>
