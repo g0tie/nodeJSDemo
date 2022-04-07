@@ -15,37 +15,39 @@
         <p style="font-weight: bold;">ERROR!</p>
     <% } %>
   <h2>Add a user</h2>
-    <form method="POST" action="/personne" class="d-flex flex-column justify-content-center w-25">
-        <input type="text" name="username" placeholder="Nom.." />
-        <select name="genre">
+    <form method="POST" action="/personne" class="d-flex flex-column justify-content-center" style="min-width: 400px;">
+        <input class="form-control" type="text" name="username" placeholder="Nom.." />
+        <select  class="form-control" name="genre">
             <option disabled>Choisir un genre</option>
             <option value="F"> Femme </option>
             <option value="M"> Homme</option>
         </select>
 
-        <select name="favbrand">
+        <select  class="form-control" name="favbrand">
             <option disabled>Choisir une marque</option>
             <% for (el of brands) { %>
                 <option value="<%= el.id %>"><%= el.name %></option>
             <% } %>
         </select>
 
-        <input type="submit" value="Valider" />
+        <input type="submit" value="Valider" class="btn btn-primary" />
     </form>
 
     <h2 class=" my-5">User list</h2>
 
-    <table class="table">
+    <table class="table table-bordered">
         <thead class="thead-dark">
             <tr>
                 <th>Nom</th>
                 <th>Genre</th>
+                <th>Marque Favorites</th>
             </tr>
         </thead>
         <% for (el of list) { %>
             <tr>
                 <td><a href="/personne/<%= el.name %>"><%= el.name %></a></td>
                 <td><%= el.genre %></td>
+                <td><% if (el.brand.length > 0) { %> <%= el.brand[0].name %> <% } %> </td>
             </tr>
         <% } %>
     </table>

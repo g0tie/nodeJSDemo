@@ -21,9 +21,14 @@ app.get('/', async (req, res) => {
 
     try {
         let user = await UserModel.findOne({name: "Eric"});
-        let list = await UserModel.find() || [];
-        let brands = await FavoriteBrandModel.find() || [];
+        let list = await  UserModel.aggregate().lookup({
+            from: 'favoritebrands',
+            localField: 'favorite_brand_id', 
+            foreignField: '_id', as: 'brand'
+        }) || [];
 
+        let brands = await FavoriteBrandModel.find() || [];
+        
         res.render(__dirname + '/templates/index.ejs', {
             user: user.name, 
             gender: user.genre, 
@@ -36,7 +41,22 @@ app.get('/', async (req, res) => {
     } catch (e) {
         res.render(__dirname + '/templates/index.ejs', {error: e, success: false});
     }
+    
+});
 
+// Add a new entry, new user in database
+app.post('/personne', async (req, res) => {
+    try {
+        let newUser = await UserModel.create({
+            name: req.body.username,
+            genre: req.body.genre,
+            favorite_brand_id:   req.body.favbrand 
+        });
+
+        newUser && res.redirect('/?success=1');
+    } catch(e) {
+        res.redirect('/?success=0');
+    }
 });
 
 // 404 page
@@ -47,14 +67,24 @@ app.get("/notfound", (req, res) => {
 //Custom editing page based on user id (username)
 app.get('/personne/:id', async (req, res) => {
     try {
-        let infos = await UserModel.findOne({name: req.params.id});
+
+        //find user and join infos with favoritebrand collection
+        let infos = await UserModel.aggregate().match({name: req.params.id}).lookup({
+            from: 'favoritebrands',
+            localField: 'favorite_brand_id', 
+            foreignField: '_id', as: 'brand'
+        });
+
         let brands = await FavoriteBrandModel.find() || [];
+        let brand = await infos[0].brand.length > 0 ?  infos[0].brand[0]['_id'] : "";
 
         if (!infos) await res.redirect('/notfound');
 
-        res.render(__dirname + '/templates/personne/index.ejs', { name: infos.name, genre: infos.genre, success: req.query.success || false, brands});
+
+        res.render(__dirname + '/templates/personne/edit.ejs', { brand, name: infos[0].name, genre: infos[0].genre, success: req.query.success || false, brands});
     } catch (e) {
-        res.render(__dirname + '/templates/personne/index.ejs', {error: e, success: false});
+        console.log(e)
+        res.render(__dirname + '/templates/personne/edit.ejs', {error: e, success: false});
     }
 });
 
@@ -64,6 +94,7 @@ app.post('/personne/:id', async (req, res) => {
         let user = await UserModel.findOne({name: req.params.id});
         user.name = await req.body.username;
         user.genre = await req.body.genre;
+        user.favorite_brand_id = await req.body.favbrand;
 
         await user.save();
 
@@ -73,19 +104,6 @@ app.post('/personne/:id', async (req, res) => {
     }
 });
 
-// Add a new entry, new user in database
-app.post('/personne', async (req, res) => {
-    try {
-        let newUser = UserModel.create({
-            name: req.body.username,
-            genre: req.body.genre
-        });
-
-        res.redirect('/?success=1');
-    } catch(e) {
-        res.redirect('/?success=0');
-    }
-});
 
 //start server
 const listener = app.listen(process.env.PORT, () => console.log(`Server listening on port ${listener.address().port}`));

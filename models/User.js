@@ -8,8 +8,11 @@ const UserSchema = new  mongoose.Schema({
     genre: {
         type: String
     },
+
+    //act as a foreign key
     favorite_brand_id : {
-        type: Number
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'FavoriteBrand'
     }
 }, { collection: "personnages"}) ;
 

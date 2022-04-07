@@ -1,0 +1,41 @@
+<%- include('../header.ejs') %>
+<body>
+    <div class="container d-flex flex-column justify-content-center align-items-center">
+    <h1 class="my-5">Update infos:</h1>
+
+    <% if (success == 1) { %>
+        <p style="font-weight: bold;">DATA UPDATED !</p>
+    <% } %>
+
+    <% if (success === 0) { %>
+        <p style="font-weight: bold;">ERROR!</p>
+    <% } %>
+  
+    <form method="POST" action="/personne/<%= name %>" class="d-flex flex-column justify-content-center"  style="min-width: 400px;">
+        <input class="form-control" type="text" name="username" placeholder="Nom.." value="<%= name %>" />
+        <select  class="form-control" name="genre" value="<%= genre %>">
+            <option disabled>Choisir un genre</option>
+            <option value="F"> Femme </option>
+            <option value="M"> Homme</option>
+        </select>
+
+        <select  class="form-control" name="favbrand" id="brand">
+            <option disabled value="">Choisir une marque</option>
+            <% for (el of brands) { %>
+                <option value="<%= el.id %>"><%= el.name %></option>
+            <% } %>
+        </select>
+
+        <input type="submit" value="Valider" class="btn btn-primary" />
+    </form>
+
+    <script> 
+        let brandSelector = document.querySelector("#brand");
+        let selectedId = "<%= brand %>";
+        let indexToSelect = Array.from( brandSelector.options ).findIndex(opt => opt.value === selectedId);
+        
+        brandSelector.options[indexToSelect].selected = true
+    </script>
+</div>
+</body>
+</html>
