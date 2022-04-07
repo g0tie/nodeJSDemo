@@ -8,6 +8,9 @@ const UserSchema = new  mongoose.Schema({
     genre: {
         type: String
     },
+    favorite_brand_id : {
+        type: Number
+    }
 }, { collection: "personnages"}) ;
 
 //create model

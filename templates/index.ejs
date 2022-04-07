@@ -22,6 +22,14 @@
             <option value="F"> Femme </option>
             <option value="M"> Homme</option>
         </select>
+
+        <select name="favbrand">
+            <option disabled>Choisir une marque</option>
+            <% for (el of brands) { %>
+                <option value="<%= el.id %>"><%= el.name %></option>
+            <% } %>
+        </select>
+
         <input type="submit" value="Valider" />
     </form>
 

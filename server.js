@@ -3,6 +3,7 @@ const app = require('express')();
 const connectToDb = require('./config/db.js');
 const bodyParser = require("body-parser");
 const UserModel = require("./models/User");
+const FavoriteBrandModel = require("./models/FavoriteBrand");
 const { redirect } = require('express/lib/response');
 
 //Set connection to database
@@ -21,7 +22,17 @@ app.get('/', async (req, res) => {
     try {
         let user = await UserModel.findOne({name: "Eric"});
         let list = await UserModel.find() || [];
-        res.render(__dirname + '/templates/index.ejs', {user: user.name, gender: user.genre, error:false, success: req.query.success || false, list});
+        let brands = await FavoriteBrandModel.find() || [];
+
+        res.render(__dirname + '/templates/index.ejs', {
+            user: user.name, 
+            gender: user.genre, 
+            error:false, 
+            success: req.query.success || false, 
+            list,
+            brands
+        });
+
     } catch (e) {
         res.render(__dirname + '/templates/index.ejs', {error: e, success: false});
     }
@@ -37,10 +48,11 @@ app.get("/notfound", (req, res) => {
 app.get('/personne/:id', async (req, res) => {
     try {
         let infos = await UserModel.findOne({name: req.params.id});
+        let brands = await FavoriteBrandModel.find() || [];
 
         if (!infos) await res.redirect('/notfound');
 
-        res.render(__dirname + '/templates/personne/index.ejs', { name: infos.name, genre: infos.genre, success: req.query.success || false });
+        res.render(__dirname + '/templates/personne/index.ejs', { name: infos.name, genre: infos.genre, success: req.query.success || false, brands});
     } catch (e) {
         res.render(__dirname + '/templates/personne/index.ejs', {error: e, success: false});
     }

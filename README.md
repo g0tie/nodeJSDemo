@@ -12,9 +12,10 @@ This project is made usign NodeJS, MongoDB, Mongoose, EJS, dotenv and ExpressJS 
 
 ## Usage
 1. Create a database on mongodb and create on entry as a test with ```js { name:Eric, genre "M" }``` 
-2. Set the correct db connection informations inside the **.env** file (there is a .env.example)
-3. launch the server with ```node server.js```
-4. Access with your browser to the main url http://hostname:port/
+2. Execute the seeder ```js npm run seed ```
+3. Set the correct db connection informations inside the **.env** file (there is a .env.example)
+4. launch the server with ```node server.js```
+5. Access with your browser to the main url http://hostname:port/
 
 - On the home page you should see the name Eric (see step 1), it means that the db querying works correctly
 - You can insert new users by filling the fields and click on submit button (a message should appear in case of success or error)
