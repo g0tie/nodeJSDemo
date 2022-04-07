@@ -13,9 +13,9 @@ This project is made usign NodeJS, MongoDB, Mongoose, EJS, dotenv and ExpressJS 
 
 ## Usage
 1. Create a database on mongodb and create an entry as a test with ```js { name:Eric, genre "M" }``` 
-2. Execute the seeder ```js npm run seed ``` to populate db with *favoritebrands* collection
+2. Execute the seeder ```npm run seed ``` to populate db with *favoritebrands* collection
 3. Set the correct db connection informations inside the **.env** file (there is a .env.example)
-4. launch the server with ```node server.js```
+4. launch the server with ```node server.js``` or ``` npm run start ```
 5. Access with your browser to the main url http://hostname:port/
 
 - On the home page you should see the name Eric (see step 1), it means that the db querying works correctly
@@ -24,5 +24,5 @@ This project is made usign NodeJS, MongoDB, Mongoose, EJS, dotenv and ExpressJS 
 
 
 ## Commanges
-- ```nodejs npm run seed ``` : Run seeder to insert favorite brands
-- ```nodejs npm run start ``` : Start the server
+- ``` npm run seed ``` : Run seeder to insert favorite brands
+- ``` npm run start ``` : Start the server
