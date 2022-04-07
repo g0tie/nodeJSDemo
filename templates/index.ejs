@@ -51,7 +51,28 @@
             </tr>
         <% } %>
     </table>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item"><a class="page-link" onclick="getPrevPage()">Previous</a></li>
+          <li class="page-item"><a class="page-link" onclick="getNextPage()">Next</a></li>
+        </ul>
+    </nav>
    
 </div>
+
+    <script>
+        function getNextPage() {
+            let currentPage = new URLSearchParams( window.location.search ).get("page") ?? 0;
+            console.log(currentPage)
+            window.location.href = `/?page=${++currentPage}`
+        }
+
+        function getPrevPage() {
+            let currentPage = new URLSearchParams( window.location.search ).get("page") ?? 0;
+            console.log(currentPage)
+            if (currentPage > 1) window.location.href = `/?page=${--currentPage}`;
+        }
+    </script>
     </body>
 </html>

@@ -19,8 +19,9 @@ This project is made usign NodeJS, MongoDB, Mongoose, EJS, dotenv and ExpressJS 
 5. Access with your browser to the main url http://hostname:port/
 
 - On the home page you should see the name Eric (see step 1), it means that the db querying works correctly
-- There is a list of all users on the homepage, you can modiy their infos by clicking on their name
-- You can insert new users and favorite brand by filling the fields and click on submit button (a message should appear in case of success or error)
+- You can add a new user with the form, add a name, select a favorite brand and submit, a message will appear above the form to indicate the success or failure of the operation.
+- There is a list of all users on the homepage, you can modiy their infos by clicking on their name. You can navigate with previous and next buttons.
+- When you edit a user, you can change the name and the brand, you must validate your changes with the button. To go back home click the button at the top left of the page
 
 
 ## Commanges

@@ -20,14 +20,16 @@ app.set('view engine', 'ejs');
 app.get('/', async (req, res) => {
 
     try {
+        let selectedPage = await req.query.page === undefined ? 0 : req.query.page ;
         let user = await UserModel.findOne({name: "Eric"});
         let list = await  UserModel.aggregate().lookup({
             from: 'favoritebrands',
             localField: 'favorite_brand_id', 
             foreignField: '_id', as: 'brand'
-        }) || [];
+        }).skip(5 * selectedPage).limit(5) || [];
 
         let brands = await FavoriteBrandModel.find() || [];
+
         
         res.render(__dirname + '/templates/index.ejs', {
             user: user.name, 
@@ -39,7 +41,8 @@ app.get('/', async (req, res) => {
         });
 
     } catch (e) {
-        res.render(__dirname + '/templates/index.ejs', {error: e, success: false});
+        res.redirect("/notfound");
+        console.error(e);
     }
     
 });
@@ -84,7 +87,7 @@ app.get('/personne/:id', async (req, res) => {
         res.render(__dirname + '/templates/personne/edit.ejs', { brand, name: infos[0].name, genre: infos[0].genre, success: req.query.success || false, brands});
     } catch (e) {
         console.log(e)
-        res.render(__dirname + '/templates/personne/edit.ejs', {error: e, success: false});
+        res.redirect("/notfound")
     }
 });
 
@@ -100,7 +103,8 @@ app.post('/personne/:id', async (req, res) => {
 
         res.redirect(`/personne/${req.body.username}/?success=1`);
     } catch (e) {
-        res.redirect(`/personne/${req.body.username}/?success=0`);
+        console.error(e);
+        res.redirect("/notfound");
     }
 });
 
