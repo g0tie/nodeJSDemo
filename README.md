@@ -26,6 +26,6 @@ This project is made usign NodeJS, MongoDB, Mongoose, EJS, dotenv and ExpressJS 
 - You can view history of changes when updating favorite brands of a user on clicking a username
 
 
-## Commanges
+## Commands
 - ``` npm run seed ``` : Run seeder to insert favorite brands
 - ``` npm run start ``` : Start the server
