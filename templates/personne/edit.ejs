@@ -17,7 +17,7 @@
   
     <form method="POST" action="/personne/<%= name %>" class="d-flex flex-column justify-content-center"  style="min-width: 400px;">
         <input class="form-control" type="text" name="username" placeholder="Nom.." value="<%= name %>" />
-        <select  class="form-control" name="genre" value="<%= genre %>">
+        <select  class="form-control" name="genre" id="gender">
             <option disabled>Choisir un genre</option>
             <option value="F"> Femme </option>
             <option value="M"> Homme</option>
@@ -35,10 +35,18 @@
 
     <script> 
         let brandSelector = document.querySelector("#brand");
-        let selectedId = "<%= brand %>";
-        let indexToSelect = Array.from( brandSelector.options ).findIndex(opt => opt.value === selectedId);
-        
-        brandSelector.options[indexToSelect].selected = true
+        let genderSelector = document.querySelector("#gender");
+
+        function setSelector(selector, selectedId) {
+
+            let indexToSelect = Array.from( selector.options ).findIndex(opt => opt.value === selectedId);
+            indexToSelect = Array.from( selector.options ).findIndex(opt => opt.value === selectedId);
+            selector.options[indexToSelect].selected = true
+        }
+
+        setSelector(brandSelector, "<%= brand %>");
+        setSelector(genderSelector, "<%= genre %>");
+
     </script>
 </div>
 </body>

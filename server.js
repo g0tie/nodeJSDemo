@@ -33,6 +33,7 @@ app.get('/', async (req, res) => {
         
         res.render(__dirname + '/templates/index.ejs', {
             user: user.name, 
+            id: user._id,
             gender: user.genre, 
             error:false, 
             success: req.query.success || false, 
@@ -102,6 +103,16 @@ app.post('/personne/:id', async (req, res) => {
         await user.save();
 
         res.redirect(`/personne/${req.body.username}/?success=1`);
+    } catch (e) {
+        console.error(e);
+        res.redirect("/notfound");
+    }
+});
+
+app.delete('/personne/:id', async (req, res) => {
+    try {
+        let user = await UserModel.deleteOne({name: req.params.id});
+        user && res.status(200).send({"success": true});
     } catch (e) {
         console.error(e);
         res.redirect("/notfound");

@@ -41,6 +41,8 @@
                 <th>Nom</th>
                 <th>Genre</th>
                 <th>Marque Favorites</th>
+                <th>Supprimer</th>
+
             </tr>
         </thead>
         <% for (el of list) { %>
@@ -48,6 +50,7 @@
                 <td><a href="/personne/<%= el.name %>"><%= el.name %></a></td>
                 <td><%= el.genre %></td>
                 <td><% if (el.brand.length > 0) { %> <%= el.brand[0].name %> <% } %> </td>
+                <td><button class="btn btn-danger" onclick="deleteUser('<%= el.name  %>')">Supprimer</button></td>
             </tr>
         <% } %>
     </table>
@@ -70,6 +73,19 @@
         function getPrevPage() {
             let currentPage = new URLSearchParams( window.location.search ).get("page") ?? 0;
             if (currentPage > 0) window.location.href = `/?page=${--currentPage}`;
+        }
+
+        async function deleteUser(name) {
+            try {
+                let res = await fetch(`/personne/${name}`, { method: 'DELETE'} );
+                let data = await res.json();
+                res.status === 200 && await alert("User deleted successfully");
+                await window.location.reload();
+                
+            } catch (e) {
+                console.log(e);
+                alert("Error occured: " + e);
+            }
         }
     </script>
     </body>
