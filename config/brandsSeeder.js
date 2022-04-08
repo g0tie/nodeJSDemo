@@ -11,7 +11,9 @@ FavoriteBrand.insertMany([
     {name: "Domyos"},
     {name: "Celio"},
     {name: "Kalenji"}
-]).then( res => console.log("Brands inserted in database"))
-.catch(err => console.log(`Error: ${err}`));
+]).then( res => {
+    console.log("Brands inserted in database")
+    process.exit();
 
-process.exit();
+})
+.catch(err => console.log(`Error: ${err}`));
