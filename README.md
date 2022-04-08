@@ -9,7 +9,8 @@ This project is made usign NodeJS, MongoDB, Mongoose, EJS, dotenv and ExpressJS 
 
 - The main file is **server.js**.
 - All routes and controllers are defined here (because it is a vey small app)
-- There are two main models: **Users** and **FavoriteBrands** and infos are *joined* with a foreign key on user document
+- There are three main models: **Users**, **FavoriteBrands** and **UserBrand** (userbrand store id of both previous models)
+- there are three tables too: **personnages**, **favoritebrands** and **userbrands** (user brand is like a link table)
 
 ## Usage
 1. Create a database on mongodb and create an entry as a test with ```js { name:Eric, genre "M" }``` 
@@ -22,6 +23,7 @@ This project is made usign NodeJS, MongoDB, Mongoose, EJS, dotenv and ExpressJS 
 - You can add a new user with the form, add a name, select a favorite brand and submit, a message will appear above the form to indicate the success or failure of the operation.
 - There is a list of all users on the homepage, you can modiy their infos by clicking on their name. You can navigate with previous and next buttons.
 - When you edit a user, you can change the name and the brand, you must validate your changes with the button. To go back home click the button at the top left of the page
+- You can view history of changes when updating favorite brands of a user on clicking a username
 
 
 ## Commanges

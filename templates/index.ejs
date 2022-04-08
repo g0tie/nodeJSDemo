@@ -50,6 +50,7 @@
                 <td><%= el.genre %></td>
                 <td><% if (el.brand.length > 0) { %> <%= el.brand[0].name %> <% } %> </td>
                 <td><button class="btn btn-danger" onclick="deleteUser('<%= el.name  %>')">Supprimer</button></td>
+
             </tr>
         <% } %>
     </table>

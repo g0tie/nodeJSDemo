@@ -2,9 +2,11 @@ require('dotenv').config()
 const app = require('express')();
 const connectToDb = require('./config/db.js');
 const bodyParser = require("body-parser");
+
+//models
 const UserModel = require("./models/User");
 const FavoriteBrandModel = require("./models/FavoriteBrand");
-const { redirect } = require('express/lib/response');
+const UserBrandModel = require("./models/UserBrand");
 
 //Set connection to database
 connectToDb();
@@ -57,7 +59,9 @@ app.post('/personne', async (req, res) => {
             favorite_brand_id:   req.body.favbrand 
         });
 
-        newUser && res.redirect('/?success=1');
+        let join = await UserBrandModel.create({user_id: newUser._id, brand_id: newUser.favorite_brand_id});
+
+        await newUser && join && res.redirect('/?success=1');
     } catch(e) {
         res.redirect('/?success=0');
     }
@@ -82,10 +86,17 @@ app.get('/personne/:id', async (req, res) => {
         let brands = await FavoriteBrandModel.find() || [];
         let brand = await infos[0].brand.length > 0 ?  infos[0].brand[0]['_id'] : "";
 
+        let history = await UserBrandModel.aggregate().match({user_id: infos[0]._id}).lookup({
+            from: 'favoritebrands',
+            localField:"brand_id",
+            foreignField: '_id',
+            as: "brand"
+        }) ?? [];
+
         if (!infos) await res.redirect('/notfound');
 
 
-        res.render(__dirname + '/templates/personne/edit.ejs', { brand, name: infos[0].name, genre: infos[0].genre, success: req.query.success || false, brands});
+        res.render(__dirname + '/templates/personne/edit.ejs', { brand, name: infos[0].name, genre: infos[0].genre, success: req.query.success || false, brands, history});
     } catch (e) {
         console.log(e)
         res.redirect("/notfound")
@@ -95,12 +106,15 @@ app.get('/personne/:id', async (req, res) => {
 //Handle update when submitting form
 app.post('/personne/:id', async (req, res) => {
     try {
+        
         let user = await UserModel.findOne({name: req.params.id});
         user.name = await req.body.username;
         user.genre = await req.body.genre;
         user.favorite_brand_id = await req.body.favbrand;
-
+        
         await user.save();
+
+        let userbrand = await UserBrandModel.create({user_id: user._id, brand_id: user.favorite_brand_id});
 
         res.redirect(`/personne/${req.body.username}/?success=1`);
     } catch (e) {
