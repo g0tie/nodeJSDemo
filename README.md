@@ -13,7 +13,7 @@ This project is made usign NodeJS, MongoDB, Mongoose, EJS, dotenv and ExpressJS 
 - there are three tables too: **personnages**, **favoritebrands** and **userbrands** (user brand is like a link table)
 
 ## Usage
-1. Create a database on mongodb and create an entry as a test with ```js { name:Eric, genre "M" }``` 
+1. Create a database on mongodb and create an entry as a test with ```js { name:Eric, genre "M" }```  in personnages collection
 2. Execute the seeder ```npm run seed ``` to populate db with *favoritebrands* collection
 3. Set the correct db connection informations inside the **.env** file (there is a .env.example)
 4. launch the server with ```node server.js``` or ``` npm run start ```
